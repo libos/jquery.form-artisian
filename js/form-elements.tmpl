@@ -1,0 +1,205 @@
+<script type="text/x-tmpl" id="tmpl-header">
+<div class="form-element secton-break" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-description="{%= o.desc %}" data-type="element-header">
+    <label class="label-title"><span class="label-title">{%= o.label %}</label>
+    <p class="description">{%= o.desc %}</p>
+    <hr/>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-paragraph">
+<div class="form-element paragraph row" id="element-{%= o.id %}" data-label="Paragraph" data-position="{%= o.position %}" data-description="{%= o.desc %}" data-type="element-paragraph">
+    <p class="description col-12">{%= o.desc %}</p>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-input">
+<div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-input">
+    <label class="col-2 col-form-label">
+        <span class="label-title">{%= o.label %}</span>
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+    </label>
+    <div class="col-10">
+    <input type="{%= o.type %}" class="form-control" value=""  name="{%= o.type %}-{%= o.id %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly {% } %}/>
+    </div>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-textarea">
+<div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-textarea">
+    <label class="col-form-label col-2">
+        <span class="label-title">{%= o.label %}</span>
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+    </label>
+    <div class="col-10">
+    <textarea rows="3" class="form-control " name="{%= o.type %}-{%= o.id %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly{% } %}></textarea>
+    </div>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-file">
+<div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-file">
+    <label class="col-2 col-form-label">
+        <span class="label-title">{%= o.label %}</span>
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+    </label>
+    <div class="col-10">
+        <span class="btn btn-success fileinput-button">
+            <i class="fa fa-plus"></i>
+            <span>上传文件</span>
+            <input type="file" name="files[]" accept="{%= o.filetype %}/*" {% if (o.readonly == "true" || o.readonly == true) { %}readonly disabled {% } %} >
+            <input type="hidden" class="upload_settings" 
+                   data-url="/upload/files"
+                   data-limit="{%= o.files_number_limit %}"
+                   data-auto="{%= o.autoupload %}"
+                   data-type="{%= o.filetype %}">
+        </span>
+        <div class=" fileupload-progress fade">
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+            </div>
+            <div class="progress-extended">&nbsp;</div>
+        </div>
+        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+    </div>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-button">
+<div class="form-element" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-button">
+    <input type="submit" class="form-control" value="{%= o.label %}" />
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-layout-50">
+<div class="row"  data-position="{%= o.position %}" id="element-{%= o.id %}" data-id="container">
+    <div class="col-6 layout-area fart-drag fart-form-layout-50" data-id="left"></div>
+    <div class="col-6 layout-area fart-drag fart-form-layout-50" data-id="right"></div>
+</div>
+</script>
+
+
+<script type="text/x-tmpl" id="tmpl-options">
+<div class="options">
+    {% if (!o.isdesc) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">标题</label>
+      <div class="col-10">
+        <input class="form-control" type="text" value="{%= o.data.label %}" name="label" >
+      </div>
+    </div>
+    {% } %}
+    {% if ((o.isdesc && !o.isheader) || o.isheader) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">描述</label>
+      <div class="col-10">
+        <input class="form-control" type="text" value="{%= o.data.desc %}" name="desc" >
+      </div>
+    </div>
+    {% } %}
+    {% if (o.isinput) { %}
+    {% if (!o.isdate) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">占位字</label>
+      <div class="col-10">
+        <input class="form-control" type="text" value="{%= o.data.placeholder %}" name="placeholder" >
+      </div>
+    </div>
+    {% } %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">默认值</label>
+      <div class="col-10">
+        <input class="form-control" type="text" value="{%= o.data.defaultval %}" {% if (o.isdate) { %}placeholder="yyyy-MM-dd"{% } %} name="default" >
+      </div>
+    </div>
+    {% } %}
+    {% if (o.hasRequired) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label"></label>
+      <div class="col-10">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="required" {% if(o.data.required) { %}checked{% } %}>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">必填</span>
+        </label>
+      </div>
+    </div>
+    {% } %}
+    {% if (o.istextarea) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">高度</label>
+      <div class="col-10">
+        <input class="form-control" type="text" value="{%= o.data.rows %}" name="rows" >
+      </div>
+    </div>
+    {% } %}
+    {% if (o.isfile) { %}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">文件个数</label>
+      <div class="col-10">
+        <input class="form-control" type="number" value="{%= o.data.files_number_limit %}" name="files_number_limit" >
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="autoupload" {% if(o.data.autoupload) { %} checked {% } %}>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">自动上传</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">文件种类</label>
+      <div class="col-10">
+        <label class="custom-control custom-radio">
+          <input  name="filetype" type="radio" value="image" class="custom-control-input" {% if(o.data.filetype == 'image') { %}checked {% } %}>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">图片</span>
+        </label>
+        <label class="custom-control custom-radio">
+          <input name="filetype" type="radio" value="*" class="custom-control-input" {% if(o.data.filetype != 'image') { %}checked {% } %}>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">文件</span>
+        </label>
+      </div>
+    </div>
+    {% } %}
+</div>
+</script>
+
+<!--  Display part -->
+
+<script type="text/x-tmpl" id="tmpl-input-display">
+<div class="form-element form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-input">
+    <label class="col-2 col-form-label">
+        <span class="label-title">{%= o.label %}</span>
+    </label>
+    <div class="col-10 input-value">{%= o.defaultval %}</div>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-textarea-display">
+<div class="form-element form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-textarea">
+    <label class="col-form-label col-2">
+        <span class="label-title">{%= o.label %}</span>
+    </label>
+    <div class="col-10 textarea">{%= o.defaultval %}</div>
+</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-file-display">
+<div class="form-element row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-file">
+    <label class="col-2 col-form-label">
+        <span class="label-title">{%= o.label %}</span>
+    </label>
+    <div class="col-10 files">
+    {% if (typeof o.defaultval != 'undefined' && o.defaultval != undefined && o.defaultval != "undefined") { %}
+        {% if (typeof o.defaultval == 'string') { %}
+            {% if ( ['png','jpg','jpeg','gif','bmp'].indexOf(o.defaultval.split('.').pop().toLowerCase()) == -1 ) { %}
+                <a href="{%= o.defaultval %}" target="_blank">{%= o.defaultval %}</a>
+            {% } else { %}
+                <img src="{%= o.defaultval %}" width="300">
+            {% }%}
+        {% } else { %}
+            {% for(var i=0; i < o.defaultval.length; i++) { %}
+                {% if ( ['png','jpg','jpeg','gif','bmp'].indexOf(o.defaultval[i].split('.').pop().toLowerCase()) == -1 ) { %}
+                    <a href="{%= o.defaultval[i] %}" target="_blank">{%= o.defaultval[i] %}</a><br/>
+                {% } else { %}
+                    <img src="{%= o.defaultval[i] %}" width="300"><br>
+                {% }%}
+            {% } %}
+        {% } %}
+    {% } else { %}
+    0 files
+    {% } %}
+    </div>
+</div>
+</script>

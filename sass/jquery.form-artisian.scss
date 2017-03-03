@@ -1,0 +1,304 @@
+// jQuery Form Artisian
+// https://github.com/libos/jquery.form-artisian
+// 
+// Copyright 2017, Libo Liu
+// http://next.sh
+// 
+// Licensed under the MIT license:
+// https://opensource.org/licenses/MIT
+@import "compass/reset";
+@import "font";
+
+.form-artisian{
+    $white : #fff;
+    $gray : #666;
+    @at-root .popover{
+            max-width: 100%;
+            width: 540px;
+    }
+    
+    * {
+        box-sizing:border-box;
+    }
+    .row{
+        margin:0;
+    }
+    ul {
+        list-style: none;
+    }
+    h5{
+        font-weight: 100;
+        margin-bottom: 5px;
+        margin-top: 15px;
+        margin-left:18px;
+        font-size: 1rem;
+    }
+    .drag-style-2{
+        border: 1px dashed #EB0000;
+        background: #ffffff;
+        height: 70px;
+        margin: 10px 0;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+    #tmpls {
+        display: none;
+    }
+    &.fart-form-layout{
+        margin-left: 390px;
+        min-height: 540px;
+        padding: 0 15px 15px;
+        position: relative;
+        margin-bottom: 64px;
+        word-wrap: break-word;
+        height: 100%;
+        border: 1px solid #DDDDDD;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        background-color: /*#fafafa;*/#F0F0F0;
+        background-image: -moz-linear-gradient(top, #fff, #fbfbfb);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#fbfbfb));
+        background-image: -webkit-linear-gradient(top, #fff, #fbfbfb);
+        background-image: -o-linear-gradient(top, #fff, #fbfbfb);
+        background-image: linear-gradient(to bottom, #fff, #fbfbfb);
+        background-repeat: repeat-x;
+        &:before{
+            background-color: #F5F5F5;
+            border: 1px solid #DDDDDD;
+            border-radius: 4px 0 4px 0;
+            color: #9DA0A4;
+            content: "表单";
+            display: table;
+            line-height: 0;
+            font-size: 12px;
+            font-weight: bold;
+            left: -16px;
+            padding: 10px 7px 5px;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+    }
+    &.fart-form-layout, & .fart-form-layout-50{
+        .fart-drag{
+            margin:16px 0;
+            position:relative;
+            .fart-close{
+                display: none;
+                position: absolute;
+                top: 0;
+                right:0;
+                cursor: pointer;
+                color: lighten(red,20%);
+            }
+        }
+        .label-title{
+            span.label-title{
+                font-size: 1.4rem;
+            }
+        }
+        .description{
+            font-size: 0.8rem;
+            padding-top: 5px;
+        }
+        & .required-star{
+            display: none;
+        }
+        & .required {
+            .required-star{
+                color:lighten(red,40%);
+                display: inline-block;
+            }
+        }
+    }
+    .fart-control {
+        &.sort-enabled {
+            div.ui-state-highlight {
+              box-shadow: none;
+              height: 0;
+              width: 100%;
+              background: radial-gradient(ellipse at center, rgba(84, 84, 84, 1) 0%, rgba(0, 0, 0, 0) 75%);
+              border: 0 none;
+              clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+              visibility: visible;
+              overflow: hidden;
+              margin: 1px 0 3px;
+              animation: PLACEHOLDER 250ms forwards;
+            }
+        }
+        border: 1px dotted #666;
+        width: 320px;
+        padding: 8px;
+        margin: 10px 20px;
+        .col-form-label{
+            line-height:1.8rem;
+        }
+        .drag{
+            padding: .6rem .85rem .6rem 1.8rem;
+            font-size: 1rem;
+            line-height:1.25;
+        }
+    }
+
+    .fart-control .fart-drag {
+        cursor: move;
+        list-style: none;
+        margin: -1px 0 0;
+        box-shadow: 0 0 1px 0 inset;
+        padding: 15px 10px;
+        text-align: left;
+        background: $white;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:first-child {
+            border-radius: 5px 5px 0 0;
+        }
+
+        &:last-child {
+            border-radius: 0 0 5px 5px;
+        }
+        &:only-child{
+            border-radius:5px;
+        }
+        &:before {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        &:hover {
+            background-color: darken($white, 5%);
+        }
+
+        &.ui-sortable-helper {
+            border-radius: 5px;
+            transition: box-shadow 250ms;
+            box-shadow: 2px 2px 6px 0 $gray;
+            border: 1px solid $white;
+        }
+
+        &.ui-state-highlight {
+            width: 0;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+        }
+
+        &.moving {
+            opacity: 0.6;
+        }
+
+        &.fb-separator {
+            background-color: transparent;
+            box-shadow: none;
+            padding: 0;
+            cursor: default;
+        }
+        &.unpadding{
+         padding: 0;
+         & .input-layout {
+            padding: 15px 10px;
+         }
+        }
+        .row{
+            height: 100%;
+        }
+        .input-layout{
+            margin:auto;
+            border: 1px solid #666;
+        }
+        .fart-value-one{
+            width:98%;
+        }
+        .fart-value-half{
+            width: 49%;
+        }
+
+    }
+
+    .fart-control {
+        margin:1.5rem 3rem 3rem ;
+        width: 260px;
+        padding: 0;
+    }
+    .layout-area{
+        border: 1px dotted #666;
+        width: 50%;
+        min-height: 4rem;
+    }
+    #save-the-designed-unique-id-is-not-required{
+        $height:38px;
+        position: absolute;
+        bottom: -$height;
+        left:0;
+        width:100%;
+        button {
+            display: block;
+            width: 30%;
+            height: $height;
+            margin:auto;
+        }
+    }
+    .col-form-label{
+        padding:0;
+    }
+    .label-title{
+        span.label-title{
+            font-size: 1.4rem;
+        }
+    }
+    .description{
+        font-size: 0.8rem;
+        padding:5px 0;
+    }
+    &.artisian-build-form{
+        .layout-area{
+            border:0px;
+            min-height: 3rem;
+            padding:0;
+        }
+        input[type=submit]{
+            cursor: pointer;
+        }
+        .row{
+            margin:8px 0;
+        }
+        & .required-star{
+            display: none;
+        }
+        & .required {
+            .required-star{
+                color:lighten(red,40%);
+                display: inline-block;
+            }
+        }
+        .form-element{
+            padding: 8px 0;
+        }
+        .error{
+            border:1px solid lighten(red,30%);
+            border-radius: 8px;
+            padding:8px;
+            .required-star{
+                color:red;
+                display:inline-block;
+            }
+        }
+    }
+    &.artisian-display-form{
+        label.col-form-label{
+            font-weight: 600;
+        }
+        .form-element{
+            min-height: 2rem;
+        }
+        .layout-area{
+            border:0px;
+            padding:0;
+        }
+    }
+}

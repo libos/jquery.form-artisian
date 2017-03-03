@@ -1,0 +1,50 @@
+.panel {
+  min-height: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.panel {
+  background: #FFF;
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  padding: 1.875rem 1.5rem;
+}
+
+body {
+  font-size: 16px;
+  font-family: Helvetica, sans-serif;
+  color: #000;
+}
+
+.form-creator {
+  width: 100%;
+  position: relative;
+  min-height: 20rem;
+}
+.form-creator * {
+  box-sizing: border-box;
+}
+.form-creator .siderbar {
+  position: absolute;
+  width: 390px;
+  left: -1.5rem;
+  bottom: -1.875rem;
+  top: -1.875rem;
+  padding: 9px 5px;
+  z-index: 10;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+  border-right: 1px solid #ccc;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.panel {
+  width: 82%;
+  margin: auto;
+}

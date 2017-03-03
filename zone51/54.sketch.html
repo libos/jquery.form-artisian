@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Form Artisian Design Forms</title>
+    <link rel="stylesheet" href="../css/support/bootstrap.min.css">    
+    <link rel="stylesheet" href="../css/support/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/support/jquery-ui.min.css">
+    <link rel="stylesheet" href="../css/support/jquery.fileupload.css">
+    <link rel="stylesheet" href="../css/support/jquery.fileupload-ui.css">
+    <link rel="stylesheet" href="../css/jquery.form-artisian.min.css">
+    <link rel="stylesheet" href="../css/demo.css">
+</head>
+<body>
+
+<div class="panel ">
+    <div class="form-creator">
+
+        <div class="siderbar">
+            <div id="tool-panel"></div>
+        </div>
+        <div class="workspace">
+
+        </div>
+    </div>
+</div>
+
+
+<script src="../js/support/jquery.js"></script>
+<script src="../js/support/tether.min.js"></script>
+<script src="../js/support/bootstrap.min.js"></script>
+<script src="../js/support/jquery-ui.min.js"></script>
+<script src="../js/support/tmpl.min.js"></script>
+<script src="../js/jquery.form-artisian.min.js"></script>
+<script type="text/javascript">
+    $('.workspace').fart('sketch',{
+        panel: '#tool-panel',
+        loadUrl: 'data/design.json',
+        designSaveUrl: '/save_design_url',
+        designSaveCb: function (json,data) {
+            // debugger
+        },
+        initialized:function () {
+            $('.form-creator').css('min-height',($('#tool-panel').height() + 300) + 'px');
+        }
+    });
+</script>
+</body>
+</html>

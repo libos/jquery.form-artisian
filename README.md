@@ -9,17 +9,6 @@ On the Way
 
 Demo in folder zone51 
 
-### Screenshot
-
-#### Design Page
-![Design](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/design.jpg)
-
-#### Build Page
-![Build](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/build.jpg)
-
-#### Display Page
-![Display](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/display.jpg)
-
 ## Description
 
 * Design: Design a form online with drag and sort,and generate JSON object to store form data with position
@@ -89,6 +78,17 @@ $('.workspace').fart('sketch',{
 * [blueimp jQuery File Upload](https://github.com/blueimp/jQuery-File-Upload) v. 9.1+: Used to upload files
 * [blueimp JavaScript Templates](https://github.com/blueimp/JavaScript-Templates) v. 3.5+: Used to load templates.
 
+
+### Screenshot
+
+#### Design Page
+![Design](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/design.jpg)
+
+#### Build Page
+![Build](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/build.jpg)
+
+#### Display Page
+![Display](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/display.jpg)
 
 
 

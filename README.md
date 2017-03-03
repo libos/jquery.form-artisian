@@ -11,8 +11,13 @@ Demo in folder zone51
 
 ### Screenshot
 
+#### Design Page
 ![Design](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/design.jpg)
+
+#### Build Page
 ![Build](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/build.jpg)
+
+#### Display Page
 ![Display](https://raw.githubusercontent.com/libos/jquery.form-artisian/master/zone51/display.jpg)
 
 ## Description

@@ -262,6 +262,15 @@
                     }
                 }
             }
+            if (sketch) {
+                $(self.element).find('.fart-form-layout-50').sortable({
+                                                    placeholder: "drag-style-2",
+                                                    connectWith: '.fart-form-layout, .fart-form-layout-50',
+                                                    revert: 100,
+                                                    cancel: '#save-the-designed-unique-id-is-not-required',
+                                                    cursor: 'move'
+                                                }).disableSelection();
+            }
             $(self.element).find('div[id=element-container]').remove();
         }
     })

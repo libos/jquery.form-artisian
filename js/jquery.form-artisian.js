@@ -137,7 +137,6 @@
             for(var key in json){
                 var ele = json[key];
                 var id = "#element-" + ele.id;
-                // debugger
                 if (ele.type == 'input') {
                     ele.defaultval =$.trim($(self.element).find(id).find('input').val());
                 }
@@ -209,7 +208,6 @@
                     if (['container','left','right'].indexOf(p) != -1 || p.indexOf('element-') != -1) {
                         _pos = [p,0];
                     }
-                    // debugger
                     if (_pos[0] == 'index') {
                         // _base_index[i] == undefined ? _base_index[i] = 0 : _base_index[i];
                         _flag = _pos[1] - 1;
@@ -224,7 +222,6 @@
                     }
                     if (p == 'container') {
                         var with_element = xpath.closest('.form-artisian,div[data-id=left],div[data-id=right]').find('div[id=element-c'+ _flag + '-' + i +']')
-                        // debugger// var 
                         if (with_element.length == 0) {
                             with_element = tmpl('tmpl-layout-50',{position:'container',id: 'c' + _flag + '-' + i});
                             if (sketch) {
@@ -239,7 +236,6 @@
                         }
                         xpath = xpath.closest('.form-artisian,div[data-id=left],div[data-id=right]').find('div[id=element-c'+ _flag + '-' + i +']'); 
                     }
-                    // debugger
                     if (p == 'left') {
                         xpath = xpath.find('> div[data-id=left]:first');
                     }
@@ -256,8 +252,6 @@
                 });
                 if (!display && !sketch) {
                     if (_type == 'file') {
-                        // debugger
-                        debugger
                         utils.fileuploadInit('#element-' + _ele.id);
                     }
                 }
@@ -344,7 +338,6 @@
                     var type = $(this).data('type').replace('element-','');
                     var _placeholder = $(this).find('input').attr('placeholder');
                     var _default_data = self.design.fetchData(this);
-                        // debugger;
                     var data = {isheader:false,isdesc:false,isfile:false,hasRequired:true,
                                 isinput:true,istextarea:false, isdate:false,
                                 data:_default_data
@@ -394,7 +387,6 @@
                     autoupload: popover.find('input[name=autoupload]').prop('checked'),
                     filetype: popover.find('input[name=filetype]:checked').val(),
                 };
-                // debugger;
                 var type = $(this).data('type').replace('element-','');
                 $(this).find('span.label-title').html(_return_data.label);
                 if (type == 'desc' || type == 'header') {
@@ -461,7 +453,6 @@
 
                     });
                 
-                // debugger
             });
 
         },
@@ -551,7 +542,6 @@
             if ($t.data('type') == 'image') {
                 config['acceptFileTypes'] = /(\.|\/)(gif|jpe?g|png)$/i;   
             }
-            debugger
             $(e).fileupload(config);
         }
     };

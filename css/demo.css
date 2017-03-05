@@ -25,6 +25,9 @@ body {
 .form-creator * {
   box-sizing: border-box;
 }
+.form-creator .workspace {
+  margin-left: 390px;
+}
 .form-creator .siderbar {
   position: absolute;
   width: 390px;

@@ -14,10 +14,10 @@
 <div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-input">
     <label class="col-2 col-form-label">
         <span class="label-title">{%= o.label %}</span>
-        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> (必填)</span>{% } %}
     </label>
     <div class="col-10">
-    <input type="{%= o.type %}" class="form-control" value=""  name="{%= o.type %}-{%= o.id %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly {% } %}/>
+    <input type="{%= o.type %}" class="form-control" value="{%= o.defaultval %}" placeholder="{%= o.placeholder %}" name="{%= o.type %}-{%= o.id %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly {% } %}/>
     </div>
 </div>
 </script>
@@ -25,18 +25,44 @@
 <div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-textarea">
     <label class="col-form-label col-2">
         <span class="label-title">{%= o.label %}</span>
-        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> (必填)</span>{% } %}
     </label>
     <div class="col-10">
-    <textarea rows="3" class="form-control " name="{%= o.type %}-{%= o.id %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly{% } %}></textarea>
+    <textarea rows="3" class="form-control " name="{%= o.type %}-{%= o.id %}" placeholder="{%= o.placeholder %}" value="{%= o.defaultval %}" {% if (o.readonly == "true" || o.readonly == true) { %}readonly{% } %}></textarea>
     </div>
 </div>
 </script>
+
+
+<script type="text/x-tmpl" id="tmpl-radio">
+<div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-radio">
+    <label class="col-form-label col-2">
+        <span class="label-title">{%= o.label %}</span>
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> (必填)</span>{% } %}
+    </label>
+    <div class="radios">
+      {% if (typeof o.defaultval != 'undefined' && o.defaultval != undefined && o.defaultval != "undefined") { %}
+        {% var radios = o.defaultval.split(';'); %}
+        {% for(var i=0; i < radios.length; i++) { %}
+          <label class="custom-control custom-radio">
+            <input  name="{%= o.type %}-{%= o.id %}" type="radio" value="{%= radios[i] %}" class="custom-control-input" {% if (i == 0) { %} checked {% } %} >
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">{%= radios[i] %}</span>
+          </label>
+        {% } %}
+      {% } else { %}
+        设置选项
+      {% } %}
+    </div>
+</div>
+</script>
+
+
 <script type="text/x-tmpl" id="tmpl-file">
 <div class="form-element {% if (o.required == "true" || o.required == true) { %}required{% } %} row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-file">
     <label class="col-2 col-form-label">
         <span class="label-title">{%= o.label %}</span>
-        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> *</span>{% } %}
+        {% if (o.required == "true" || o.required == true) { %}<span class="required-star"> (必填)</span>{% } %}
     </label>
     <div class="col-10">
         <span class="btn btn-success fileinput-button">
@@ -91,7 +117,7 @@
     </div>
     {% } %}
     {% if (o.isinput) { %}
-    {% if (!o.isdate) { %}
+    {% if (!o.isdate && !o.isradio) { %}
     <div class="form-group row">
       <label class="col-2 col-form-label">占位字</label>
       <div class="col-10">
@@ -100,7 +126,7 @@
     </div>
     {% } %}
     <div class="form-group row">
-      <label class="col-2 col-form-label">默认值</label>
+      <label class="col-2 col-form-label">默认值 {% if (o.isradio) { %}<br>（用英文分号分割选项）{% } %}</label>
       <div class="col-10">
         <input class="form-control" type="text" value="{%= o.data.defaultval %}" {% if (o.isdate) { %}placeholder="yyyy-MM-dd"{% } %} name="default" >
       </div>
@@ -158,6 +184,14 @@
 </script>
 
 <!--  Display part -->
+<script type="text/x-tmpl" id="tmpl-radio-display">
+<div class="form-element form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-radio">
+    <label class="col-2 col-form-label">
+        <span class="label-title">{%= o.label %}</span>
+    </label>
+    <div class="col-10 input-value">{%= o.defaultval %}</div>
+</div>
+</script>
 
 <script type="text/x-tmpl" id="tmpl-input-display">
 <div class="form-element form-group row" id="element-{%= o.id %}" data-label="{%= o.label %}" data-position="{%= o.position %}" data-type="element-input">

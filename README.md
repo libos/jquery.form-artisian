@@ -1,5 +1,9 @@
 # jquery.form-artisian
-jQuery plugin form design/reload editor, rebuild form, save user data, display user data
+jQuery plugin form design/reload editor, rebuild form, save user data, display user data.
+
+This version has radio input group template.
+
+Like Ninja Form, a simple and standalone version.
 
 ## i18n
 

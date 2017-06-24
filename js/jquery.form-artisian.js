@@ -20,6 +20,7 @@
             designSaveUrl:'/save_form',
             designSaveCb: function (json,data) {},
             designSaveErrorCb: function (result,data) {},
+            displayDoneCb: function () {},
             datepicker: false,
             initialized : function () {},
             loadUrl: '/load_form',
@@ -60,7 +61,8 @@
             var self = this;
             self.build.init(self);
             $.get(self.options.loadUrl,function (json) {
-                self.build.construct(self,json);
+                var clone = jQuery.extend(true,{}, json);
+                self.build.construct(self,clone);
                 self.build.initEvent(self,json);
             },'json');
         },
@@ -117,12 +119,12 @@
                     data: data,
                     dataType:'json'
                 }).then(
-                function () {
-                    self.options.saveUserDataCb(json,data);
+                function (data) {
+                    self.options.saveUserDataCb(data,json);
                 },
                 function (jqXHR, textStatus, errorThrown) {
                     self.options.saveUserDataErrorCb({jqXHR:jqXHR, textStatus:textStatus, errorThrown:errorThrown},
-                                                        data);
+                                                        json);
                 }).catch(function(arg) {});
             });
         },
@@ -136,9 +138,13 @@
             var ret = {};
             for(var key in json){
                 var ele = json[key];
-                var id = "#element-" + ele.id;
+                var id = "#" + ele.id;
+                // debugger
                 if (ele.type == 'input') {
                     ele.defaultval =$.trim($(self.element).find(id).find('input').val());
+                }
+                if (ele.type == 'radio') {
+                    ele.defaultval =$.trim($(self.element).find(id).find('input:checked').val());
                 }
                 if (ele.type == 'textarea') {
                     ele.defaultval = $.trim($(self.element).find(id).find('textarea').val());
@@ -155,7 +161,7 @@
                         ele.defaultval = undefined;
                     }
                 }
-                if (ele.required == "true") {
+                if (ele.required == "true" || ele.required == true) {
                     if (['input','textarea','file'].indexOf(ele.type) != -1) {
                         if (ele.defaultval == '' || ele.defaultval == undefined) {
                             $(self.element).find('.error').removeClass('error');
@@ -177,6 +183,9 @@
                 var _ele = json[key];
                 var _path = key.split('/');
                 var _type = _ele.type;
+                if (_ele.subtype == 'input') {
+                    _ele.subtype = 'text';
+                }
                 if (_type == 'input') {
                     _ele.type = _ele.subtype;
                 }
@@ -184,9 +193,12 @@
                 if (sketch) {
                     _ele.id = 'o' + _ele.id;
                 }
+                if (['text','date','number'].indexOf(_type) != -1) {
+                    _type = 'input';
+                }
                 var field = tmpl('tmpl-' + _type, _ele);
                 if (display) {
-                    if (['input','file','textarea'].indexOf(_type) != -1) {
+                    if (['input','file','textarea','radio'].indexOf(_type) != -1) {
                         field = tmpl('tmpl-' + _type + '-display', _ele);
                     }
                     if (_type == 'button') {
@@ -208,6 +220,7 @@
                     if (['container','left','right'].indexOf(p) != -1 || p.indexOf('element-') != -1) {
                         _pos = [p,0];
                     }
+                    // debugger
                     if (_pos[0] == 'index') {
                         // _base_index[i] == undefined ? _base_index[i] = 0 : _base_index[i];
                         _flag = _pos[1] - 1;
@@ -222,6 +235,7 @@
                     }
                     if (p == 'container') {
                         var with_element = xpath.closest('.form-artisian,div[data-id=left],div[data-id=right]').find('div[id=element-c'+ _flag + '-' + i +']')
+                        // debugger// var 
                         if (with_element.length == 0) {
                             with_element = tmpl('tmpl-layout-50',{position:'container',id: 'c' + _flag + '-' + i});
                             if (sketch) {
@@ -236,6 +250,7 @@
                         }
                         xpath = xpath.closest('.form-artisian,div[data-id=left],div[data-id=right]').find('div[id=element-c'+ _flag + '-' + i +']'); 
                     }
+                    // debugger
                     if (p == 'left') {
                         xpath = xpath.find('> div[data-id=left]:first');
                     }
@@ -252,6 +267,7 @@
                 });
                 if (!display && !sketch) {
                     if (_type == 'file') {
+                        // debugger
                         utils.fileuploadInit('#element-' + _ele.id);
                     }
                 }
@@ -266,6 +282,9 @@
                                                 }).disableSelection();
             }
             $(self.element).find('div[id=element-container]').remove();
+            if (display) {
+                self.options.displayDoneCb();
+            }
         }
     })
     $.extend(Artisian.prototype.design,{
@@ -338,8 +357,9 @@
                     var type = $(this).data('type').replace('element-','');
                     var _placeholder = $(this).find('input').attr('placeholder');
                     var _default_data = self.design.fetchData(this);
+                        // debugger;
                     var data = {isheader:false,isdesc:false,isfile:false,hasRequired:true,
-                                isinput:true,istextarea:false, isdate:false,
+                                isinput:true,istextarea:false, isdate:false, isradio:false,
                                 data:_default_data
                                };
 
@@ -355,6 +375,9 @@
                     }
                     if (type == 'textarea') {
                         data.istextarea = true;
+                    }
+                    if (type == 'radio') {
+                        data.isradio = true;
                     }
                     if (type == 'input') {
                         if ($(this).find('input[type=date]').length > 0) {
@@ -387,14 +410,15 @@
                     autoupload: popover.find('input[name=autoupload]').prop('checked'),
                     filetype: popover.find('input[name=filetype]:checked').val(),
                 };
+                // debugger;
                 var type = $(this).data('type').replace('element-','');
                 $(this).find('span.label-title').html(_return_data.label);
-                if (type == 'desc' || type == 'header') {
+                if (type == 'desc' || type == 'header' || type == "paragraph")  {
                     $(this).find('p.description').html(_return_data.desc);
                 }
                 if (type == 'button') {
                     $(this).find('input').val(_return_data.label);
-                }else{
+                }else if(type != 'radio'){
                     $(this).find('input').attr('placeholder',_return_data.placeholder);
                     $(this).find('input').val(_return_data.defaultval);
                 }
@@ -404,7 +428,29 @@
                 }else{
                     $(this).removeClass('required');
                 }
-
+                if (type == 'radio') {
+                    // $(this).find('input').val(_return_data.defaultval);
+                    if ($.trim(_return_data.defaultval) != "" ) {
+                        $('.radios').html('');
+                        var idxxxxx = Math.random();
+                        var radios = _return_data.defaultval.split(';');
+                        for (var i = 0; i < radios.length; i++) {
+                            if ($.trim(radios[i]) != '') {
+                                $('.radios').append('<label class="custom-control custom-radio"><input name="radio-'
+                                    + idxxxxx
+                                    + '" type="radio" disabled value="'
+                                    + radios[i] 
+                                    + '" class="custom-control-input" ><span class="custom-control-indicator"></span><span class="custom-control-description">'
+                                    + radios[i]
+                                    +'</span></label>');
+                            }
+                        }
+                    }else{
+                        if ($('.radios').find('input[type=radio]').length == 0) {
+                            $('.radios').html('设置选项');
+                        }
+                    }
+                }
                 if (type == 'textarea') {
                     $(this).find('textarea').attr('rows',_return_data.rows);
                     $(this).find('textarea').val(_return_data.defaultval);
@@ -453,6 +499,7 @@
 
                     });
                 
+                // debugger
             });
 
         },
@@ -464,7 +511,21 @@
                     label: $(e).find('input[type=submit]').length == 0 ? $(e).find('span.label-title').html() : $(e).find('input[type=submit]').val() ,
                     desc: $(e).find('p.description').html(),
                     placeholder: $(e).find('textarea').length == 0 ? $(e).find('input').attr('placeholder') : $(this).find('textarea').attr('placeholder') ,
-                    defaultval: $(e).find('textarea').length == 0 ? $(e).find('input').val() : $(this).find('textarea').val(),
+                    defaultval: $(e).find('textarea').length == 0 ? 
+                                                                    ( $(e).find('input[type=radio]').length == 0 ?  $(e).find('input').val() : 
+                                                                        (function(){ 
+                                                                                var t = ""; 
+                                                                                $.each($('input[type=radio]'), function(i,el){
+                                                                                        if (i == $('input[type=radio]').length - 1) {
+                                                                                             t = t + $(el).val();
+                                                                                        }else{
+                                                                                            t = t + $(el).val() + ";";
+                                                                                        }
+                                                                                    }
+                                                                                ) 
+                                                                                return t;
+                                                                            })()
+                                                                    ) : $(this).find('textarea').val(),
                     required: $(e).hasClass('required'),
                     rows: $(e).find('textarea').attr('rows'),
                     files_number_limit: $(e).find('.upload_settings').data('limit'),
@@ -542,6 +603,7 @@
             if ($t.data('type') == 'image') {
                 config['acceptFileTypes'] = /(\.|\/)(gif|jpe?g|png)$/i;   
             }
+            // debugger
             $(e).fileupload(config);
         }
     };
